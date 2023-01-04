@@ -21,4 +21,9 @@ class ExampleTest extends AbstractTestCase
     {
         $this->assertTrue(true);
     }
+
+    public function testCa()
+    {
+        $this->assertNotEmpty((new \Sunsgne\HyperfCaptcha\Captcha())->create());
+    }
 }
