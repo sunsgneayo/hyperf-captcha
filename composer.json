@@ -6,7 +6,7 @@
         "php",
         "hyperf"
     ],
-    "description": "驗證碼  算式",
+    "description": "captcha 验证码  算式验证码",
     "autoload": {
         "psr-4": {
             "Sunsgne\\HyperfCaptcha\\": "src/"
