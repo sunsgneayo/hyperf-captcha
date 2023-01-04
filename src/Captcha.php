@@ -151,7 +151,7 @@ class Captcha
      * @param array $config
      */
     public function __construct(array $config = []) {
-        $this->files = Filesystem();
+        $this->files = new Filesystem();
         $this->imageManager = new ImageManager();
 
 //        $this->characters = config('captcha.characters', ['1', '2', '3', '4', '6', '7', '8', '9']);
@@ -188,12 +188,10 @@ class Captcha
      */
     public  function create(string $config = 'default', bool $api = false): mixed
     {
-        $file = new Filesystem();
-        $this->backgrounds = $file->files(__DIR__ . '/assets/backgrounds');
-        $this->fonts = $file->files($this->fontsDirectory);
+        $this->backgrounds = $this->files->files(__DIR__ . '/assets/backgrounds');
+        $this->fonts = $this->files->files($this->fontsDirectory);
 
 
-        $imageManager = new ImageManager();
 
         $this->fonts = array_values($this->fonts); //reset fonts array index
 
@@ -204,14 +202,14 @@ class Captcha
 
 
 
-        $this->canvas = $imageManager->canvas(
+        $this->canvas = $this->imageManager->canvas(
             $this->width,
             $this->height,
             $this->bgColor
         );
 
         if ($this->bgImage) {
-            $this->image = $imageManager->make($this->background())->resize(
+            $this->image = $this->imageManager->make($this->background())->resize(
                 $this->width,
                 $this->height
             );
