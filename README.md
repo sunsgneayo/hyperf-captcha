@@ -22,7 +22,7 @@
 灵活多变可适配性强。
 
 
-## 使用
+## 安装
 ```bash
 composer require sunsgne/hyperf-captcha
 ```
@@ -30,6 +30,20 @@ composer require sunsgne/hyperf-captcha
 
 ```bash
 php bin/hyperf.php vendor:publish sunsgne/hyperf-captcha
+```
+
+## 开始
+```php
+$Captcha = (new \Sunsgne\HyperfCaptcha\Captcha())->create();
+var_dump($Captcha);
+```
+
+```shell
+{
+"sensitive": false,
+"key": "qcejdej2y",
+"img": "data:imageXXXXXXX"
+}
 ```
 
 ## Preview
