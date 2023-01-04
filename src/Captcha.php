@@ -17,14 +17,13 @@ class Captcha
 {
 
 
-
     /**
      * @var ImageManager->canvas
      */
-    protected  $canvas;
+    protected $canvas;
 
 
-    protected  $image;
+    protected $image;
 
     /**
      * @var array
@@ -67,6 +66,7 @@ class Captcha
     protected $lines = 3;
 
     /**
+     * 字符組
      * @var string
      */
     protected $characters;
@@ -150,28 +150,33 @@ class Captcha
     /**
      * @param array $config
      */
-    public function __construct(array $config = []) {
+    public function __construct(array $config = [])
+    {
+        /** @var  files * 文件管理器 */
         $this->files = new Filesystem();
+        /** @var  imageManager * image管理器 */
         $this->imageManager = new ImageManager();
 
-//        $this->characters = config('captcha.characters', ['1', '2', '3', '4', '6', '7', '8', '9']);
-        $this->characters = ['1', '2', '3', '4', '6', '7', '8', '9'];
-        $this->fontsDirectory =  __DIR__ . '/assets/fonts';
+
+        $this->characters     = config('captcha.characters', ['1', '2', '3', '4', '6', '7', '8', '9']);
+        $this->fontsDirectory = __DIR__ . '/assets/fonts';
     }
 
     /**
      * @param string $config
      * @return void
      */
-    protected function configure($config)
+    protected function configure($config = 'default')
     {
-        if ($config = [
-            'length' => 9,
-            'width' => 120,
-            'height' => 36,
+        $config = config('captcha.' . $config, [
+            'length'  => 9,
+            'width'   => 120,
+            'height'  => 36,
             'quality' => 90,
-            'math' => true,
-        ]) {
+            'math'    => true,
+        ]);
+
+        if ($config) {
             foreach ($config as $key => $val) {
                 $this->{$key} = $val;
             }
@@ -186,20 +191,18 @@ class Captcha
      * @return array|mixed
      * @throws Exception
      */
-    public  function create(string $config = 'default', bool $api = false): mixed
+    public function create(string $config = 'default', bool $api = false): mixed
     {
         $this->backgrounds = $this->files->files(__DIR__ . '/assets/backgrounds');
-        $this->fonts = $this->files->files($this->fontsDirectory);
-
+        $this->fonts       = $this->files->files($this->fontsDirectory);
 
 
         $this->fonts = array_values($this->fonts); //reset fonts array index
 
         $this->configure($config);
 
-        $generator = $this->generate();
+        $generator  = $this->generate();
         $this->text = $generator['value'];
-
 
 
         $this->canvas = $this->imageManager->canvas(
@@ -213,7 +216,7 @@ class Captcha
                 $this->width,
                 $this->height
             );
-            $this->canvas->insert($this->image ,'top-left');
+            $this->canvas->insert($this->image, 'top-left');
         } else {
             $this->image = $this->canvas;
         }
@@ -235,13 +238,11 @@ class Captcha
             $this->image->blur($this->blur);
         }
 
-        var_dump($this->get_cache_key($generator['key']), $generator['value'], $this->expire);
-
         return [
             'sensitive' => $generator['sensitive'],
-            'key' => $generator['key'],
-            'img' => $this->image->encode('data-url')->encoded
-        ] ;
+            'key'       => $generator['key'],
+            'img'       => $this->image->encode('data-url')->encoded
+        ];
     }
 
     /**
@@ -267,23 +268,23 @@ class Captcha
         $bag = [];
 
         if ($this->math) {
-            $x = random_int(10, 30);
-            $y = random_int(1, 9);
+            $x   = random_int(10, 30);
+            $y   = random_int(1, 9);
             $bag = "$x + $y = ";
             $key = $x + $y;
             $key .= '';
         } else {
             for ($i = 0; $i < $this->length; $i++) {
-                $char = $characters[rand(0, count($characters) - 1)];
-                $bag[] = $this->sensitive ? $char : mb_strtolower( $char, 'UTF-8');
+                $char  = $characters[rand(0, count($characters) - 1)];
+                $bag[] = $this->sensitive ? $char : mb_strtolower($char, 'UTF-8');
             }
             $key = implode('', $bag);
         }
 
         return [
-            'value' => $bag,
+            'value'     => $bag,
             'sensitive' => $this->sensitive,
-            'key' => $key
+            'key'       => $key
         ];
     }
 
@@ -395,10 +396,10 @@ class Captcha
      * @param string $key
      * @return string
      */
-    protected function get_cache_key($key) {
+    protected function get_cache_key(string $key): string
+    {
         return 'captcha_' . md5($key);
     }
-
 
 
     /**
@@ -412,9 +413,9 @@ class Captcha
         return ('captcha/' . $config) . '?' . $this->random(8);
     }
 
-    public  function random($length = 16): string
+    public function random($length = 16): string
     {
-        return ( function ($length) {
+        return (function ($length) {
             $string = '';
 
             while (($len = strlen($string)) < $length) {

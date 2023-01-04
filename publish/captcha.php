@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
+ * This file is part of sunsgne.
  *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
+ * @license  https://github.com/sunsgneayo/hyperf-captcha/blob/master/LICENSE
  */
 return [
+    /** 生成的随机字符 */
     'characters' => ['2', '3', '4', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'm', 'n', 'p', 'q', 'r', 't', 'u', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'X', 'Y', 'Z'],
+    /** 默认验证码配置 */
     'default' => [
         'length' => 9,
         'width' => 120,
@@ -20,6 +19,7 @@ return [
         'expire' => 60,
         'encrypt' => false,
     ],
+    /** 算式型验证码 */
     'math' => [
         'length' => 9,
         'width' => 120,
