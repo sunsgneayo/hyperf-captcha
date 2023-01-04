@@ -146,35 +146,17 @@ class Captcha
      */
     protected $marginTop = 0;
 
+
     /**
-     * Constructor
-     *
-    //     * @param Filesystem $files
-    //     * @param Repository $config
-     * @param ImageManager $imageManager
-    //     * @param Session $session
-    //     * @param Hasher $hasher
-    //     * @param Str $str
-     * @throws Exception
-     * @internal param Validator $validator
+     * @param array $config
      */
-    public function __construct(
-//        Filesystem $files,
-//        Repository $config,
-        ImageManager $imageManager,
-//        Session $session,
-//        Hasher $hasher,
-//        Str $str
-    ) {
-//        $this->files = $files;
-//        $this->config = $config;
-        $this->imageManager = $imageManager;
-//        $this->session = $session;
-//        $this->hasher = $hasher;
-//        $this->str = $str;
+    public function __construct(array $config = []) {
+        $this->files = Filesystem();
+        $this->imageManager = new ImageManager();
+
 //        $this->characters = config('captcha.characters', ['1', '2', '3', '4', '6', '7', '8', '9']);
         $this->characters = ['1', '2', '3', '4', '6', '7', '8', '9'];
-        $this->fontsDirectory =  dirname(__DIR__) . '/assets/fonts';
+        $this->fontsDirectory =  __DIR__ . '/assets/fonts';
     }
 
     /**
@@ -207,7 +189,7 @@ class Captcha
     public  function create(string $config = 'default', bool $api = false): mixed
     {
         $file = new Filesystem();
-        $this->backgrounds = $file->files(__DIR__ . '/../assets/backgrounds');
+        $this->backgrounds = $file->files(__DIR__ . '/assets/backgrounds');
         $this->fonts = $file->files($this->fontsDirectory);
 
 
@@ -408,40 +390,6 @@ class Captcha
         return $this->image;
     }
 
-    /**
-     * Captcha check
-     *
-     * @param string $value
-     * @return bool
-     */
-//    public function check(string $value): bool
-//    {
-//        if (!$this->session->has('captcha')) {
-//            return false;
-//        }
-//
-//        $key = $this->session->get('captcha.key');
-//        $sensitive = $this->session->get('captcha.sensitive');
-//        $encrypt = $this->session->get('captcha.encrypt');
-//
-//        if (!Cache::pull($this->get_cache_key($key))) {
-//            $this->session->remove('captcha');
-//            return false;
-//        }
-//
-//        if (!$sensitive) {
-//            $value = $this->str->lower($value);
-//        }
-//
-//        if($encrypt) $key = Crypt::decrypt($key);
-//        $check = $this->hasher->check($value, $key);
-//        // if verify pass,remove session
-//        if ($check) {
-//            $this->session->remove('captcha');
-//        }
-//
-//        return $check;
-//    }
 
     /**
      * Returns the md5 short version of the key for cache
@@ -453,26 +401,7 @@ class Captcha
         return 'captcha_' . md5($key);
     }
 
-    /**
-     * Captcha check
-     *
-     * @param string $value
-     * @param string $key
-     * @param string $config
-     * @return bool
-     */
-//    public function check_api($value, $key, $config = 'default'): bool
-//    {
-//        if (!Cache::pull($this->get_cache_key($key))) {
-//            return false;
-//        }
-//
-//        $this->configure($config);
-//
-//        if(!$this->sensitive) $value = $this->str->lower($value);
-//        if($this->encrypt) $key = Crypt::decrypt($key);
-//        return $this->hasher->check($value, $key);
-//    }
+
 
     /**
      * Generate captcha image source
@@ -501,26 +430,4 @@ class Captcha
             return $string;
         })($length);
     }
-
-    /**
-     * Generate captcha image html tag
-     *
-     * @param string $config
-     * @param array $attrs
-     * $attrs -> HTML attributes supplied to the image tag where key is the attribute and the value is the attribute value
-     * @return string
-     */
-//    public function img(string $config = 'default', array $attrs = []): string
-//    {
-//        $attrs_str = '';
-//        foreach ($attrs as $attr => $value) {
-//            if ($attr == 'src') {
-//                //Neglect src attribute
-//                continue;
-//            }
-//
-//            $attrs_str .= $attr . '="' . $value . '" ';
-//        }
-//        return new HtmlString('<img src="' . $this->src($config) . '" ' . trim($attrs_str) . '>');
-//    }
 }
