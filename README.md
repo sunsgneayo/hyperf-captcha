@@ -19,6 +19,8 @@
 # hyperf  captcha 
 
 
+
+
 ## 使用
 ```bash
 composer require sunsgne/hyperf-captcha
@@ -31,3 +33,8 @@ php bin/hyperf.php vendor:publish sunsgne/hyperf-captcha
 
 ## Preview
 ![Preview](https://image.ibb.co/kZxMLm/image.png)
+
+
+
+## 说明
+- 非常感谢[mewebstudio/captcha](https://github.com/mewebstudio/captcha)作者的开源
