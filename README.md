@@ -1,4 +1,8 @@
-<p align="center"><img width="260px" src="[https://chaz6chez.cn/images/workbunny-logo.png](https://cdn.nine1120.cn/logo-i.png)" alt="sunsgne"></p>
+
+<p align="center">
+  <img width="260px" src="https://cdn.nine1120.cn/logo-i.png" alt="sunsgne">
+</p>
+
 **<p align="center">sunsgne/hyperf-captcha</p>**
 
 **<p align="center">🐬 Verification code generator based on hyperf high-performance coroutine framework 🐬</p>**
